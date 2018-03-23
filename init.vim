@@ -24,6 +24,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 	" Async Library
 	Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+
 	" GDB Integration
 	Plug 'https://github.com/idanarye/vim-vebugger'
 
