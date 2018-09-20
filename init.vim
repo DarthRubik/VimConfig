@@ -5,7 +5,7 @@ set mouse=v
 call plug#begin('~/.local/share/nvim/plugged')
 	
 	" Language Server Protocol Client
-	Plug 'autozimu/LanguageClient-neovim', {'do': ':UpdateRemotePlugins' }	
+	" Plug 'autozimu/LanguageClient-neovim', {'do': ':UpdateRemotePlugins' }
 
 	Plug 'https://github.com/scrooloose/nerdtree.git'
 
@@ -29,12 +29,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 call plug#end()
 
-let g:LanguageClient_serverCommands = {
-			\ 'cpp' : ['/home/drubik/llvm_avr_build/bin/clangd'],
-			\ 'c'   : ['/home/drubik/llvm_avr_build/bin/clangd']
-			\ }
-
-let g:LanguageClient_autoStart = 1
 function SetDebugMode()
 	call SetDefaultMode()
 	noremap <space> :VBGtoggleBreakpointThisLine <CR>
