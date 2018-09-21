@@ -29,22 +29,3 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 call plug#end()
 
-function SetDebugMode()
-	call SetDefaultMode()
-	noremap <space> :VBGtoggleBreakpointThisLine <CR>
-	noremap i :VBGstepIn <CR>
-	noremap o :VBGstepOver <CR>
-	noremap s :VBGstartGDB
-endfunction
-function SetDefaultMode()
-	mapclear | mapclear <buffer> | mapclear! | mapclear! <buffer>
-	noremap <F1> :call SetDefaultMode() <CR>
-	noremap <F2> :call SetDebugMode() <CR>
-	noremap <c-t> :NERDTreeToggle <CR>
-	noremap <c-n> :set invnumber <CR>
-
-	inoremap <c-p> <ESC>pli
-
-
-endfunction
-call SetDefaultMode()
