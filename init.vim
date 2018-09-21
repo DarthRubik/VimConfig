@@ -29,3 +29,9 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 call plug#end()
 
+
+:set list
+:set tabstop=4
+:set shiftwidth=4
+:set expandtab
+:set colorcolumn=80
