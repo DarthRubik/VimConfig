@@ -40,6 +40,82 @@ call plug#end()
 :let mapleader=';'
 
 
+nnoremap ;, :set opfunc=DR_LocalSearch<CR>g@
+vnoremap ;, :<C-U>call DR_LocalSearch(visualmode(),1)<CR>
+
+nnoremap ;< :set opfunc=DR_LocalSearchNoMatchWord<CR>g@
+vnoremap ;< :<C-U>call DR_LocalSearchNoMatchWord(visualmode(),1)<CR>
+
+nnoremap ;; :set opfunc=DR_GlobalSearch<CR>g@
+vnoremap ;; :<C-U>call DR_GlobalSearch(visualmode(),1)<CR>
+
+nnoremap ;: :set opfunc=DR_GlobalSearchNoMatchWord<CR>g@
+vnoremap ;: :<C-U>call DR_GlobalSearchNoMatchWord(visualmode(),1)<CR>
+
+nnoremap ;. :set opfunc=DR_GlobalSearchUpADirectory<CR>g@
+vnoremap ;. :<C-U>call DR_GlobalSearchUpADirectory(visualmode(),1)<CR>
+
+nnoremap ;> :set opfunc=DR_GlobalSearchUpADirectory<CR>g@
+vnoremap ;> :<C-U>call DR_GlobalSearchUpADirectory(visualmode(),1)<CR>
+
+function! DR_GetMovementSelection(type,is_visual_mode)
+    let sel_save = &selection
+    let &selection = "inclusive"
+    let reg_save = @@
+
+    if a:is_visual_mode  " Invoked from Visual mode, use gv command.
+        silent exe "normal! gvy"
+    elseif a:type == 'line'
+        silent exe "normal! '[V']y"
+    else
+        silent exe "normal! `[v`]y"
+    endif
+
+    let ret = @@
+
+
+    let &selection = sel_save
+    let @@ = reg_save
+
+    return ret
+endfunction
+function! DR_LocalSearch(type, ...)
+    let @h = DR_GetMovementSelection(a:type,a:0)
+    let l:s = "vimgrep /\\<" . @h . "\\>/gj %"
+    execute l:s
+endfunction
+function! DR_LocalSearchNoMatchWord(type, ...)
+    let @h = DR_GetMovementSelection(a:type,a:0)
+    let l:s = "vimgrep /\\<" . @h . "\\>/gj %"
+    execute l:s
+endfunction
+function! DR_GlobalSearch(type, ...)
+    let @h = DR_GetMovementSelection(a:type,a:0)
+    let l:s = "vimgrep /\\<" . @h . "\\>/gj **/*.c **/*.h"
+    execute l:s
+endfunction
+function! DR_GlobalSearchNoMatchWord(type, ...)
+    let @h = DR_GetMovementSelection(a:type,a:0)
+    let l:s = "vimgrep /" . @h . "/gj **/*.c **/*.h"
+    execute l:s
+endfunction
+function! DR_GlobalSearchUpADirectory(type, ...)
+    let @h = DR_GetMovementSelection(a:type,a:0)
+    let l:s = "vimgrep /\\<" . @h . "\\>/gj %:p:h/../**/*.c %:p:h/../**/*.h"
+    execute l:s
+endfunction
+function! DR_GlobalSearchUpADirectoryNoMatchWord(type, ...)
+    let @h = DR_GetMovementSelection(a:type,a:0)
+    let l:s = "vimgrep /" . @h . "/gj %:p:h/../**/*.c %:p:h/../**/*.h"
+    execute l:s
+endfunction
+
+nnoremap ;f "tyiw:vimgrep /\< \>/gj **/*.c **/*.h<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
+nnoremap ;F "tyiw:vimgrep //gj **/*.c **/*.h<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
+nnoremap ;c zR:cc<CR>viw"hp
+nnoremap ;n zR:cn<CR>viw"hp
+
+
 :let g:ctrlp_map = '<leader>t'
 :let g:ctrlp_custom_ignore = 'boost_fh'
 :let g:ctrlp_working_path_mode = ''
