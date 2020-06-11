@@ -10,7 +10,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 	Plug 'https://github.com/scrooloose/nerdtree.git'
 
 	" Auto complete handler
-	Plug 'https://github.com/roxma/nvim-completion-manager.git'
+	" Plug 'https://github.com/roxma/nvim-completion-manager.git'
 
 	" Multi-entry UI
 	Plug 'Shougo/denite.nvim'
