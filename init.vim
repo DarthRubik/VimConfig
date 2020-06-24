@@ -110,11 +110,25 @@ function! DR_GlobalSearchUpADirectoryNoMatchWord(type, ...)
     execute l:s
 endfunction
 
-nnoremap ;f "tyiw:vimgrep /\< \>/gj **/*.c **/*.h<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
+nnoremap ;f "tyiw:vimgrep /\<\>/gj **/*.c **/*.h<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
 nnoremap ;F "tyiw:vimgrep //gj **/*.c **/*.h<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
 nnoremap ;c zR:cc<CR>viw"hp
 nnoremap ;n zR:cn<CR>viw"hp
 
+
+nnoremap ;y :set opfunc=DR_YankToClip<CR>g@
+vnoremap ;y :<C-U>call DR_YankToClip(visualmode(),1)<CR>
+
+function! DR_YankToClip(type, ...)
+    let @y = DR_GetMovementSelection(a:type,a:0)
+    call system("clip.exe",@y)
+endfunction
+
+:tnoremap <Esc> <C-\><C-n>
+
+nnoremap ++ ggVG"hy:let @h = system("gcc -xc -fpreprocessed -dD -E -", @h)<CR>:let @h = system("clang-format", @h)<CR>ggVG"hp:g/^\s*$/d<CR>
+
+nnoremap ;r :so $MYVIMRC<CR>
 
 :let g:ctrlp_map = '<leader>t'
 :let g:ctrlp_custom_ignore = 'boost_fh'
