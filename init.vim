@@ -79,39 +79,42 @@ function! DR_GetMovementSelection(type,is_visual_mode)
 
     return ret
 endfunction
-function! DR_LocalSearch(type, ...)
-    let @h = DR_GetMovementSelection(a:type,a:0)
-    let l:s = "vimgrep /\\<" . @h . "\\>/gj %"
+
+function! DR_GenericSearch(str, opts, search_file)
+    let l:s = "silent grep! -I " . a:opts . " " . a:str . " " . a:search_file
     execute l:s
+endfunction
+function! DR_GenericMoveSearch(type, opts, search_file, mode)
+    :call DR_GenericSearch(DR_GetMovementSelection(a:type,a:mode),a:opts,a:search_file)
+endfunction
+function! DR_LocalSearch(type, ...)
+    :call DR_GenericMoveSearch(a:type,"-w","%",a:0)
 endfunction
 function! DR_LocalSearchNoMatchWord(type, ...)
-    let @h = DR_GetMovementSelection(a:type,a:0)
-    let l:s = "vimgrep /\\<" . @h . "\\>/gj %"
-    execute l:s
+    :call DR_GenericMoveSearch(a:type,"","%",a:0)
 endfunction
 function! DR_GlobalSearch(type, ...)
-    let @h = DR_GetMovementSelection(a:type,a:0)
-    let l:s = "vimgrep /\\<" . @h . "\\>/gj **/*.c **/*.h"
-    execute l:s
+    :call DR_GenericMoveSearch(a:type,"-w -r",".",a:0)
 endfunction
 function! DR_GlobalSearchNoMatchWord(type, ...)
-    let @h = DR_GetMovementSelection(a:type,a:0)
-    let l:s = "vimgrep /" . @h . "/gj **/*.c **/*.h"
-    execute l:s
+    :call DR_GenericMoveSearch(a:type,"-r",".",a:0)
 endfunction
 function! DR_GlobalSearchUpADirectory(type, ...)
-    let @h = DR_GetMovementSelection(a:type,a:0)
-    let l:s = "vimgrep /\\<" . @h . "\\>/gj %:p:h/../**/*.c %:p:h/../**/*.h"
-    execute l:s
+    :call DR_GenericMoveSearch(a:type,"-w -r","%:p:h/..",a:0)
 endfunction
 function! DR_GlobalSearchUpADirectoryNoMatchWord(type, ...)
-    let @h = DR_GetMovementSelection(a:type,a:0)
-    let l:s = "vimgrep /" . @h . "/gj %:p:h/../**/*.c %:p:h/../**/*.h"
-    execute l:s
+    :call DR_GenericMoveSearch(a:type,"-r","%:p:h/..",a:0)
 endfunction
 
-nnoremap ;f "tyiw:vimgrep /\<\>/gj **/*.c **/*.h<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
-nnoremap ;F "tyiw:vimgrep //gj **/*.c **/*.h<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
+nnoremap ;f :call DR_GenericSearch("","-w -r",".")<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
+nnoremap ;F :call DR_GenericSearch("","-r",".")<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
+
+nnoremap ;v :call DR_GenericSearch("","-w -r","%:p:h/..")<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
+nnoremap ;V :call DR_GenericSearch("","-r","%:p:h/..")<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
+
+nnoremap ;q :copen<CR>
+nnoremap ;a :cclose<CR>
+
 nnoremap ;c zR:cc<CR>viw"hp
 nnoremap ;n zR:cn<CR>viw"hp
 
