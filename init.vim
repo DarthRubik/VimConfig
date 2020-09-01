@@ -117,7 +117,7 @@ nnoremap ;F :call DR_GenericSearch("","-r",".")<LEFT><LEFT><LEFT><LEFT><LEFT><LE
 nnoremap ;v :call DR_GenericSearch("","-w -r","%:p:h/..")<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
 nnoremap ;V :call DR_GenericSearch("","-r","%:p:h/..")<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
 
-nnoremap ;q :copen<CR>
+nnoremap ;q :botright copen<CR>
 nnoremap ;a :cclose<CR>
 
 nnoremap ;c zR:cc<CR>viw"hp
