@@ -1,6 +1,12 @@
 set background=dark
 set number
 set mouse=v
+colorscheme morning
+
+" Untested gui colors
+autocmd ColorScheme * hi DiffText cterm=none ctermbg=147 gui=none ctermfg=none guibg=#c8bfe7
+autocmd ColorScheme * hi DiffAdd  cterm=none ctermbg=255 gui=none ctermfg=none guibg=#c8bfe7
+autocmd ColorScheme * hi DiffDelete ctermfg=Black ctermbg=White gui=bold guifg=Blue guibg=LightCyan
 
 call plug#begin('~/.local/share/nvim/plugged')
 	
