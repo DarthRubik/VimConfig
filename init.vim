@@ -43,10 +43,23 @@ call plug#end()
 :set list
 :set tabstop=4
 :set shiftwidth=4
-:set expandtab
 :set colorcolumn=80
 :let mapleader=';'
+:set notimeout
 
+function! DR_SetTabMode()
+    :set noexpandtab
+endfunction
+
+function! DR_SetNoTabMode()
+    :set expandtab
+endfunction
+
+:call DR_SetNoTabMode()
+
+
+nnoremap ;w :call DR_SetNoTabMode()<CR>
+nnoremap ;e :call DR_SetTabMode()<CR>
 
 nnoremap ;, :set opfunc=DR_LocalSearch<CR>g@
 vnoremap ;, :<C-U>call DR_LocalSearch(visualmode(),1)<CR>
