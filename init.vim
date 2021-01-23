@@ -160,6 +160,111 @@ nnoremap ++ ggVG"hy:let @h = system("gcc -xc -fpreprocessed -dD -E -", @h)<CR>:l
 
 nnoremap ;r :so $MYVIMRC<CR>
 
+
+
+vnoremap i* :<C-U>silent! normal! 2<Space>[/v2<Space>o2<Space>]/hh<CR>
+omap i* :normal vi*<CR>
+
+vnoremap a* :<C-U>silent! normal! 2<Space>[/v]/<CR>
+omap a* :normal va*<CR>
+
+vnoremap i# :<C-U>silent! normal! ]#[#jVk%k<CR>
+omap i# :normal Vi#<CR>
+
+vnoremap a# :<C-U>silent! normal! ]#[#V%<CR>
+omap a# :normal Va#<CR>
+
+function! DR_GotoExtremeIfdef(top)
+
+    let Comparison = {a,b -> a > b}
+
+    if a:top == 1
+        let Comparison = {a,b -> a < b}
+    endif
+
+    :normal! 0
+    let l:extreme_line = line('.')
+    let l:starting_line = line('.')
+
+    :normal! %
+
+    while l:extreme_line != line('.')
+        if Comparison(line('.'), l:extreme_line)
+           let l:extreme_line = line('.')
+        endif
+
+        :normal! %
+    endwhile
+
+    while line('.') != l:extreme_line
+        :normal! %
+    endwhile
+endfunction
+
+function! DR_MoveInnerTotalIfdef()
+    normal! [#]#
+    call DR_GotoExtremeIfdef(1)
+    normal! jVk
+    call DR_GotoExtremeIfdef(0)
+    normal! k
+endfunction
+
+function! DR_MoveOuterTotalIfdef()
+    normal! [#]#
+    call DR_GotoExtremeIfdef(1)
+    normal! V
+    call DR_GotoExtremeIfdef(0)
+endfunction
+
+vnoremap i3 :<C-U>call DR_MoveInnerTotalIfdef()<CR>
+omap i3 :normal Vi3<CR>
+
+vnoremap a3 :<C-U>call DR_MoveOuterTotalIfdef()<CR>
+omap a3 :normal Va3<CR>
+
+function! DR_MoveExtremeComment(top)
+    let l:search_save = @/
+    let @/= '[/][/]'
+    normal! nN
+    let NextLine = {-> execute("normal! n")}
+    let PrevLine = {-> execute("normal! N")}
+
+    if a:top == 1
+        let NextLine = {-> execute("normal! N")}
+        let PrevLine = {-> execute("normal! n")}
+    endif
+
+    let l:last_line = line('.')
+
+    while abs(line('.') - l:last_line) <= 1
+        let l:last_line = line('.')
+        call NextLine()
+    endwhile
+
+    call PrevLine()
+    let @/ = l:search_save
+endfunction
+
+function! DR_MoveInnerTotalComment()
+    call DR_MoveExtremeComment(1)
+    normal! vlloll
+    call DR_MoveExtremeComment(0)
+    normal! $h
+endfunction
+
+function! DR_MoveOuterTotalComment()
+    call DR_MoveExtremeComment(1)
+    normal! v
+    call DR_MoveExtremeComment(0)
+    normal! $h
+endfunction
+
+vnoremap i/ :<C-U>call DR_MoveInnerTotalComment()<CR>
+omap i/ :normal vi/<CR>
+
+vnoremap a/ :<C-U>call DR_MoveOuterTotalComment()<CR>
+omap a/ :normal va/<CR>
+
 :let g:ctrlp_map = '<leader>t'
 :let g:ctrlp_custom_ignore = 'boost_fh'
 :let g:ctrlp_working_path_mode = ''
