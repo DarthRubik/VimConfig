@@ -68,6 +68,7 @@ nnoremap ;< :set opfunc=DR_LocalSearchNoMatchWord<CR>g@
 vnoremap ;< :<C-U>call DR_LocalSearchNoMatchWord(visualmode(),1)<CR>
 
 nnoremap ;; :set opfunc=DR_GlobalSearch<CR>g@
+nmap ;;; ;;iw
 vnoremap ;; :<C-U>call DR_GlobalSearch(visualmode(),1)<CR>
 
 nnoremap ;: :set opfunc=DR_GlobalSearchNoMatchWord<CR>g@
