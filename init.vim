@@ -90,7 +90,7 @@ function! DR_GenericSearch(str, opts, search_file)
     let l:ext_list = ["c", "h", "cpp", "hpp", "mk", "vim"]
     let l:inc_list = ""
     for l:ext in l:ext_list
-        let l:inc_list = l:inc_list . "--include \*." . l:ext . " "
+        let l:inc_list = l:inc_list . "--include \"\*.\"" . l:ext . " "
     endfor
     let l:s = "silent grep! -I " . l:inc_list . " " . a:opts . " '" . a:str . "' " . a:search_file
     execute l:s
