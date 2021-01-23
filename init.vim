@@ -15,6 +15,8 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 	Plug 'https://github.com/scrooloose/nerdtree.git'
 
+	Plug 'kazimuth/dwarffortress.vim'
+
 	" Auto complete handler
 	" Plug 'https://github.com/roxma/nvim-completion-manager.git'
 
