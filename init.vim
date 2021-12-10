@@ -82,6 +82,10 @@ vnoremap ;. :<C-U>call DR_GlobalSearchUpADirectory(visualmode(),1)<CR>
 nnoremap ;> :set opfunc=DR_GlobalSearchUpADirectory<CR>g@
 vnoremap ;> :<C-U>call DR_GlobalSearchUpADirectory(visualmode(),1)<CR>
 
+
+nnoremap ;i :set diffopt+=iwhite<CR>
+nnoremap ;I :set diffopt-=iwhite<CR>
+
 function! DR_GetMovementSelection(type,is_visual_mode)
     let sel_save = &selection
     let &selection = "inclusive"
