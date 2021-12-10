@@ -271,6 +271,8 @@ omap i/ :normal vi/<CR>
 vnoremap a/ :<C-U>call DR_MoveOuterTotalComment()<CR>
 omap a/ :normal va/<CR>
 
+nnoremap ;/ :let @/=""<CR>
+
 :let g:ctrlp_map = '<leader>t'
 :let g:ctrlp_custom_ignore = 'boost_fh'
 :let g:ctrlp_working_path_mode = ''
