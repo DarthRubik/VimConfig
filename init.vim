@@ -46,6 +46,7 @@ call plug#end()
 :set colorcolumn=80
 :let mapleader=';'
 :set notimeout
+:set listchars=tab:<=>,trail:-,nbsp:+
 :set nofixendofline
 
 function! DR_SetTabMode()
