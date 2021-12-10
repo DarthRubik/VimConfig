@@ -301,6 +301,10 @@ omap a/ :normal va/<CR>
 
 nnoremap ;/ :let @/=""<CR>
 
+nnoremap ;s :mks<CR>
+nnoremap ;S :so Session.vim<CR>:!rm Session.vim<CR>
+
+
 :let g:ctrlp_map = '<leader>t'
 :let g:ctrlp_custom_ignore = 'boost_fh'
 :let g:ctrlp_working_path_mode = ''
