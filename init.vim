@@ -167,6 +167,34 @@ nnoremap ++ ggVG"hy:let @h = system("gcc -xc -fpreprocessed -dD -E -", @h)<CR>:l
 nnoremap ;r :so $MYVIMRC<CR>
 
 
+function! DR_MoveInnerVariable(allow_op, keep_sel)
+    let l:search_save = @/
+    let l:z_save = @"
+    let @/= '[^a-zA-Z0-9->._:]\|\n'
+    normal! n
+
+    if (a:keep_sel == 1)
+        execute "normal! gvn\<Backspace>"
+    else
+        execute "normal! N\<Space>vn\<Backspace>"
+    endif
+
+    execute "normal! \<Esc>lylgv"
+
+    if (@" == '(' || @" == '[') && a:allow_op == 1
+        normal! %
+        " call DR_MoveInnerVariable(1,1)
+    endif
+
+    let @" = l:z_save
+    let @/ = l:search_save
+endfunction
+
+vnoremap iv :<C-U>call DR_MoveInnerVariable(1, 0)<CR>
+omap iv :normal viv<CR>
+
+vnoremap iV :<C-U>call DR_MoveInnerVariable(0, 0)<CR>
+omap iV :normal viV<CR>
 
 vnoremap i* :<C-U>silent! normal! 2<Space>[/v2<Space>o2<Space>]/hh<CR>
 omap i* :normal vi*<CR>
