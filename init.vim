@@ -109,7 +109,7 @@ function! DR_GetMovementSelection(type,is_visual_mode)
 endfunction
 
 function! DR_GenericSearch(str, opts, search_file)
-    let l:ext_list = ["c", "h", "txt", "cpp", "hpp", "mk", "vim", "scala", "ld"]
+    let l:ext_list = ["c", "h", "cs", "vb", "cmake", "sh", "txt", "cpp", "hpp", "mk", "vim", "scala", "ld"]
     let l:inc_list = ""
     for l:ext in l:ext_list
         let l:inc_list = l:inc_list . "--include \"\*.\"" . l:ext . " "
